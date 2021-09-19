@@ -1,0 +1,51 @@
+a: 	.bss 1
+b: 	.bss 1
+c: 	.bss 1
+tmp$stor: 	.bss 100
+	ladr 0,tmp$stor
+	movs "Enter two integers: "
+	pint 0
+	csp wrs
+	ladr 0,a
+	csp rdi
+	ladr 0,b
+	csp rdi
+	load 0,a
+	pint 15
+	sub
+	load 0,b
+	add
+	stor 0,c
+	ladr 0,tmp$stor
+	movs "first was "
+	pint 0
+	csp wrs
+	load 0,a
+	pint 0
+	csp wri
+	ladr 0,tmp$stor
+	movs ", second was "
+	pint 0
+	csp wrs
+	load 0,b
+	pint 0
+	csp wri
+	ladr 0,tmp$stor
+	movs ", (first-15)+second is "
+	pint 0
+	csp wrs
+	load 0,c
+	pint 0
+	csp wri
+	csp wln
+	ladr 0,tmp$stor
+	movs "1000 - 10 is "
+	pint 0
+	csp wrs
+	pint 1000
+	pint 10
+	sub
+	pint 0
+	csp wri
+	csp wln
+	halt

@@ -1,0 +1,88 @@
+Grammar for ATL/0.  (A Tiny Language?)  CS 450
+
+  Scanner details:
+
+   -- All keywords are lower case.
+
+   -- Keyword tokens:  
+	END
+	READ
+	BEGIN
+	WRITE
+	INTEGER
+	PROGRAM
+	WRITELN
+	VARIABLE
+
+   -- Composite tokens:
+	CONST  - integer constant (one or more digits)	    [0-9]+
+	ID     - identifier (a letter followed by any
+		 number of letters, digits or underscores)  [a-z][a-z0-9_]*
+	ASSIGN - assignment operator			    <--
+	STRING - string constant, "chars", no escape characters
+
+   -- Single Character tokens:
+	+ - ( ) ; , : .
+
+   -- Scanner must produce listings on request of command line switch.
+
+All programs in ATL/0 have the following "Outline":
+
+  program name;
+
+    variable  namelist : integer ;
+
+    begin
+
+	<statements: read (input), write, writeln (output), and
+	  assignment>
+
+    end name .
+
+Grammar itself:   (Things in {  } appear 0 or more times.)
+
+goal	: PROGRAM ID ";" var_decl BEGIN statements END ID "."
+
+var_decl: VARIABLE id_list ":" INTEGER ";"
+
+id_list : ID  { "," ID }
+
+statements : statement ";"  { statement ";" }
+
+statement : ID ASSIGN expr
+	  | READ "(" read_list ")"
+	  | WRITE "(" write_list ")"
+	  | WRITELN "(" ")"
+
+read_list : ID { ";" ID }
+
+write_list : write_elem { ";" write_elem }
+
+write_elem : STRING
+	   | expr
+
+expr	: primary { add_op primary }
+
+add_op  : "+" | "-"
+
+primary	: "(" expr ")"
+	| ID
+	| CONST
+
+---- CS 520 ----
+
+Add tokens *, /, %
+
+Change grammar from expr and down to:
+
+expr    : factor { add_op factor }
+
+factor  : primary { mul_op primary }
+
+add_op  : "+" | "-"
+
+mul_op  : "*" | "/" | "%"
+
+primary : "(" expr ")"
+        | ID
+        | CONST
